@@ -201,9 +201,9 @@ def main():
     pd.set_option('max_rows', 400)
     pd.set_option('max_columns', 100)
 
-    train_data = pd.read_csv('/home/kaino/comp/sony/train.csv')\
+    train_data = pd.read_csv('train.csv')\
                    .assign(timestamp=lambda d: pd.to_datetime(d['year'].astype(str) + '-' + d['month'].astype(str) + '-' + d['day'].astype(str)))
-    test_data = pd.read_csv('/home/kaino/comp/sony/test.csv')\
+    test_data = pd.read_csv('test.csv')\
                   .assign(timestamp=lambda d: pd.to_datetime(d['year'].astype(str) + '-' + d['month'].astype(str) + '-' + d['day'].astype(str)))
 
     train_data['bodytemp_mid'] = 37 - ((37 - train_data['temperature_mid']) / (0.68 - (0.0014 * train_data['humidity_mid'] + (1 / (1.4 * (train_data['ws_mid'] ** 0.75) + 1.76))))) - (0.29 * train_data['temperature_mid'] * (1 - (train_data['humidity_mid'] / 100)))
@@ -286,10 +286,10 @@ def main():
 
     plot_prediction_distribution(target, oof_valid_lgb1, pred_test)
 
-    submission = pd.read_csv('/home/kaino/comp/sony/submit_sample.csv', header=None)
+    submission = pd.read_csv('submit_sample.csv', header=None)
     submission.iloc[:, 1] = pred_test
 
-    submission.to_csv('/home/kaino/comp/sony/submission.csv', index=False)
+    submission.to_csv('submission.csv', index=False)
 
 if __name__ == "__main__":
     main()
